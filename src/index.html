@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goblin Whacker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0f3460, #1a1a2e);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #4dffea;
+            text-shadow: 0 0 10px rgba(77, 255, 234, 0.5);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            color: #a9b7c6;
+        }
+        
+        .game-info {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .info-item {
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+        
+        #score {
+            color: #4dffea;
+        }
+        
+        #misses {
+            color: #ff6b6b;
+        }
+        
+        #timer {
+            color: #ffd93d;
+        }
+        
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 15px;
+            width: 500px;
+            height: 500px;
+            margin: 30px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .cell {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .cell:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            border-color: rgba(77, 255, 234, 0.3);
+        }
+        
+        .cell.active {
+            background: rgba(255, 107, 107, 0.2);
+            border-color: #ff6b6b;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 107, 107, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); }
+        }
+        
+        .controls {
+            margin: 30px 0;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            margin: 0 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .btn-start {
+            background: linear-gradient(135deg, #4dffea, #2af598);
+            color: #1a1a2e;
+        }
+        
+        .btn-pause {
+            background: linear-gradient(135deg, #ffd93d, #ff9d00);
+            color: #1a1a2e;
+        }
+        
+        .btn-reset {
+            background: linear-gradient(135deg, #ff6b6b, #ffa8a8);
+            color: white;
+        }
+        
+        .instructions {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .instructions h3 {
+            color: #4dffea;
+            margin-bottom: 15px;
+        }
+        
+        .instructions ul {
+            list-style: none;
+            text-align: left;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .instructions li {
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .instructions li:before {
+            content: '🎯';
+            position: absolute;
+            left: 0;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            border: 2px solid rgba(77, 255, 234, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content h2 {
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+        
+        .modal-content p {
+            font-size: 1.3em;
+            margin: 15px 0;
+            color: #a9b7c6;
+        }
+        
+        #final-score {
+            font-size: 2em;
+            color: #4dffea;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 600px) {
+            .game-board {
+                width: 90vw;
+                height: 90vw;
+                max-width: 400px;
+                max-height: 400px;
+            }
+            
+            .game-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .controls {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 80%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>👹 Goblin Whacker</h1>
+            <p>Whack the goblins before they escape!</p>
+        </header>
+        
+        <div class="game-info">
+            <div class="info-item">
+                Score: <span id="score">0</span>
+            </div>
+            <div class="info-item">
+                Misses: <span id="misses">0</span>/5
+            </div>
+            <div class="info-item">
+                Next goblin in: <span id="timer">1.0</span>s
+            </div>
+        </div>
+        
+        <div id="game-board" class="game-board">
+            <!-- Game cells will be generated by JavaScript -->
+        </div>
+        
+        <div class="controls">
+            <button id="start-btn" class="btn btn-start">
+                ▶ Start Game
+            </button>
+            <button id="pause-btn" class="btn btn-pause" disabled>
+                ⏸ Pause
+            </button>
+            <button id="reset-btn" class="btn btn-reset">
+                🔄 Reset
+            </button>
+        </div>
+        
+        <div class="instructions">
+            <h3>🎮 How to Play</h3>
+            <ul>
+                <li>Click on the goblin when it appears to score points</li>
+                <li>Each goblin appears for exactly 1 second</li>
+                <li>If you miss 5 goblins, the game ends</li>
+                <li>Try to achieve the highest score!</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="modal" id="game-over-modal">
+        <div class="modal-content">
+            <h2>🏁 Game Over!</h2>
+            <p>Your final score: <span id="final-score">0</span></p>
+            <p>You missed too many goblins!</p>
+            <button id="play-again-btn" class="btn btn-start">
+                🔄 Play Again
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Временный скрипт для проверки DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM полностью загружен');
+            
+            // Проверяем все элементы
+            const elements = [
+                'game-board', 'score', 'misses', 'timer',
+                'start-btn', 'pause-btn', 'reset-btn',
+                'game-over-modal', 'final-score', 'play-again-btn'
+            ];
+            
+            elements.forEach(id => {
+                const el = document.getElementById(id);
+                console.log(`${id}:`, el ? '✓ Found' : '✗ Not found');
+            });
+            
+            // Создаем игровое поле
+            const board = document.getElementById('game-board');
+            if (board) {
+                board.innerHTML = '';
+                for (let i = 0; i < 16; i++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.dataset.index = i;
+                    cell.textContent = '';
+                    board.appendChild(cell);
+                }
+                console.log('Игровое поле создано: 16 клеток');
+            }
+        });
+    </script>
+</body>
+</html>

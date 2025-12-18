@@ -1,0 +1,1 @@
+![CI](https://github.com/Alex-K004/game2/actions/workflows/web.yml/badge.svg)
