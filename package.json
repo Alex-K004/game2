@@ -2,6 +2,8 @@
   "name": "goblin-game",
   "version": "1.0.0",
   "scripts": {
+    "predeploy": "npm run build && echo '' > dist/.nojekyll",
+    "deploy": "gh-pages -d dist -t true",
     "start": "webpack serve --mode development --open",
     "build": "webpack --mode production",
     "test": "jest"
