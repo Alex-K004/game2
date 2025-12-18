@@ -2,14 +2,15 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
-  mode: 'development',
   entry: './src/index.js',
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
-    publicPath: '/',
+    publicPath: isProduction ? '/game2/' : '/',
   },
   module: {
     rules: [
@@ -28,7 +29,8 @@ module.exports = {
         test: /\.(png|jpg|jpeg|gif|svg)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'assets/[name][ext][query]'
+          filename: 'assets/[name][ext][query]',
+          publicPath: '/game2/assets/'
         }
       }
     ]
@@ -37,7 +39,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: 'index.html',
-      inject: 'body'
+      inject: 'body',
+      // Добавляем base tag для правильных путей
+      templateParameters: {
+        baseUrl: isProduction ? '/game2/' : '/'
+      }
     }),
     new CopyWebpackPlugin({
       patterns: [
@@ -56,6 +62,9 @@ module.exports = {
     port: 9007,
     open: true,
     hot: true,
+    historyApiFallback: {
+      index: '/game2/index.html'
+    },
   },
-  devtool: 'source-map'
+  devtool: isProduction ? false : 'source-map'
 };
