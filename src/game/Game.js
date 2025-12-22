@@ -233,8 +233,7 @@ export default class Game {
       finalScoreElement.textContent = this.score.getScore();
       console.log(`Final score: ${this.score.getScore()}`);
     }
-
-    // Show game over modal
+    
     const gameOverModal = document.getElementById('game-over-modal');
     if (gameOverModal) {
       gameOverModal.classList.add('active');
