@@ -29,7 +29,7 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(png|jpg|jpeg|gif|svg|ico)$/i,
+        test: /\.(png|jpg|jpeg|gif|svg)$/i,
         type: 'asset/resource',
         generator: {
           filename: 'assets/[name][ext]'
@@ -42,18 +42,6 @@ module.exports = {
       template: './src/index.html',
       filename: 'index.html',
       inject: true,
-      minify: isProduction ? {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeRedundantAttributes: true,
-        useShortDoctype: true,
-        removeEmptyAttributes: true,
-        removeStyleLinkTypeAttributes: true,
-        keepClosingSlash: true,
-        minifyJS: true,
-        minifyCSS: true,
-        minifyURLs: true,
-      } : false,
     }),
     new CopyWebpackPlugin({
       patterns: [
@@ -62,8 +50,8 @@ module.exports = {
           to: 'assets'
         },
         {
-          from: 'public',
-          to: '',
+          from: '.nojekyll',
+          to: '.',
           noErrorOnMissing: true
         }
       ]
@@ -74,18 +62,12 @@ module.exports = {
       directory: path.join(__dirname, 'dist'),
     },
     compress: true,
-    port: 9010,
+    port: 9000,
     open: true,
     hot: true,
     historyApiFallback: true,
-    client: {
-      overlay: {
-        errors: true,
-        warnings: false,
-      },
-    },
   },
-  devtool: isProduction ? 'source-map' : 'eval-source-map',
+  devtool: isProduction ? false : 'eval-source-map',
   stats: {
     children: true,
     errorDetails: true,

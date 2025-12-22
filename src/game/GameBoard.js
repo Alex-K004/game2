@@ -67,7 +67,6 @@ export default class GameBoard {
 
     const cell = this.cells[cellIndex];
     if (cell) {
-
       cell.append(goblinElement);
       this.setActiveCell(cellIndex);
       return true;
