@@ -5,11 +5,11 @@ export default class Timer {
     this.timerElement = document.getElementById('timer');
     this.countdownInterval = null;
     this.timeLeft = interval / 1000;
-    
+
     if (!this.timerElement) {
       console.error('Timer element not found!');
     }
-    
+
     this.updateDisplay();
   }
 
@@ -17,12 +17,12 @@ export default class Timer {
     this.stopCountdown();
     this.timeLeft = this.interval / 1000;
     this.updateDisplay();
-    
+
     console.log('Starting countdown...');
     this.countdownInterval = setInterval(() => {
       this.timeLeft -= 0.1;
       this.updateDisplay();
-      
+
       if (this.timeLeft <= 0) {
         this.timeLeft = this.interval / 1000;
         if (callback) {
@@ -44,7 +44,7 @@ export default class Timer {
   updateDisplay() {
     if (this.timerElement) {
       this.timerElement.textContent = this.timeLeft.toFixed(1);
-      
+
       // Change color based on time left
       if (this.timeLeft < 0.3) {
         this.timerElement.style.color = '#ff6b6b';

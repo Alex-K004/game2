@@ -1,8 +1,10 @@
-// src/game/Goblin.js - упрощенная версия
+import goblinImage from '../assets/goblin.png';
+
 export default class Goblin {
   constructor() {
     this.element = null;
     this.currentPosition = null;
+    this.imageUrl = goblinImage;
     this.init();
   }
 
@@ -11,30 +13,26 @@ export default class Goblin {
   }
 
   createGoblinElement() {
-    const goblin = document.createElement('div');
-    goblin.className = 'goblin';
-    goblin.innerHTML = '👹';
-    goblin.style.cssText = `
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 40px;
-      cursor: pointer;
-    `;
-    
-    return goblin;
+    const img = document.createElement('img');
+    img.className = 'goblin';
+    img.alt = 'Goblin';
+    img.src = this.imageUrl;
+
+    img.style.width = '80%';
+    img.style.height = '80%';
+    img.style.objectFit = 'contain';
+    img.style.cursor = 'pointer';
+    img.style.userSelect = 'none';
+
+    return img;
   }
 
   show(position) {
-    console.log(`Showing goblin at position ${position}`);
     this.currentPosition = position;
     return this.element;
   }
 
   hide() {
-    console.log('Hiding goblin');
     this.currentPosition = null;
     return null;
   }

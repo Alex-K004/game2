@@ -6,16 +6,16 @@ export default class Score {
     this.maxMisses = 5;
     this.scoreElement = document.getElementById('score');
     this.missesElement = document.getElementById('misses');
-    
+
     if (!this.scoreElement || !this.missesElement) {
       console.error('Score elements not found!');
     }
-    
+
     this.updateDisplay();
   }
 
   addPoint() {
-    this.score++;
+    this.score += 1;
     console.log(`Score: +1 = ${this.score}`);
     this.updateDisplay();
     this.animateScore();
@@ -23,7 +23,7 @@ export default class Score {
   }
 
   addMiss() {
-    this.misses++;
+    this.misses += 1;
     console.log(`Miss: +1 = ${this.misses}/${this.maxMisses}`);
     this.updateDisplay();
     this.animateMisses();
@@ -37,7 +37,7 @@ export default class Score {
     if (this.missesElement) {
       this.missesElement.textContent = this.misses;
     }
-    
+
     // Update misses color based on count
     if (this.missesElement) {
       if (this.misses >= this.maxMisses - 2) {
@@ -55,7 +55,7 @@ export default class Score {
       this.scoreElement.style.transform = 'scale(1.5)';
       this.scoreElement.style.color = '#4dffea';
       this.scoreElement.style.transition = 'all 0.3s';
-      
+
       setTimeout(() => {
         this.scoreElement.style.transform = 'scale(1)';
         this.scoreElement.style.color = '';
@@ -68,7 +68,7 @@ export default class Score {
       this.missesElement.style.transform = 'scale(1.5)';
       this.missesElement.style.color = '#ff6b6b';
       this.missesElement.style.transition = 'all 0.3s';
-      
+
       setTimeout(() => {
         this.missesElement.style.transform = 'scale(1)';
       }, 300);
