@@ -11,7 +11,6 @@ module.exports = {
     filename: isProduction ? 'bundle.[contenthash].js' : 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
-    publicPath: '/',
   },
   module: {
     rules: [
@@ -43,7 +42,6 @@ module.exports = {
       template: './src/index.html',
       filename: 'index.html',
       inject: true,
-      // Убрали favicon, так как файла нет
       minify: isProduction ? {
         removeComments: true,
         collapseWhitespace: true,

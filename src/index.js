@@ -43,6 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
       <p style="color: #a9b7c6;">Please check the console for details.</p>
     `;
 
-    document.body.appendChild(errorDiv);
+    document.body.append(errorDiv);
   }
 });

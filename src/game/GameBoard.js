@@ -21,7 +21,7 @@ export default class GameBoard {
       cell.className = 'cell';
       cell.dataset.index = i;
       this.cells.push(cell);
-      this.boardElement.appendChild(cell);
+      this.boardElement.append(cell);
     }
   }
 
@@ -49,7 +49,6 @@ export default class GameBoard {
 
   clearAllCells() {
     this.cells.forEach((cell) => {
-      // Используем remove вместо removeChild
       const goblin = cell.querySelector('.goblin');
       if (goblin) {
         goblin.remove();
@@ -68,7 +67,7 @@ export default class GameBoard {
 
     const cell = this.cells[cellIndex];
     if (cell) {
-      // Используем append вместо appendChild
+
       cell.append(goblinElement);
       this.setActiveCell(cellIndex);
       return true;

@@ -1,1 +1,1 @@
-**[Play the Game ON GitHub Pages](https://alex-k004.github.io/game2/)**
+![CI](https://github.com/Alex-K004/game2/actions/workflows/web.yml/badge.svg)
