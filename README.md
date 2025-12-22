@@ -1,1 +1,1 @@
-**[Play the Game on GitHub Pages](https://alex-k004.github.io/game2/)**
+**[Play the Game ON GitHub Pages](https://alex-k004.github.io/game2/)**
