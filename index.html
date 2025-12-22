@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goblin Whacker Game</title>
+<script defer src="/bundle.js"></script></head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-dragon"></i> Goblin Whacker</h1>
+            <p class="subtitle">Whack the goblins before they escape!</p>
+        </header>
+        
+        <main class="game-container">
+            <div class="game-info">
+                <div class="score-display">
+                    <i class="fas fa-trophy"></i>
+                    <span>Score: <span id="score">0</span></span>
+                </div>
+                <div class="misses-display">
+                    <i class="fas fa-heart-broken"></i>
+                    <span>Misses: <span id="misses">0</span>/5</span>
+                </div>
+                <div class="timer-display">
+                    <i class="fas fa-clock"></i>
+                    <span>Next goblin in: <span id="timer">1.0</span>s</span>
+                </div>
+            </div>
+            
+            <div class="game-board-container">
+                <div id="game-board" class="game-board">
+                    <!-- Game board will be generated here -->
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button id="start-btn" class="btn btn-start">
+                    <i class="fas fa-play"></i> Start Game
+                </button>
+                <button id="pause-btn" class="btn btn-pause" disabled>
+                    <i class="fas fa-pause"></i> Pause
+                </button>
+                <button id="reset-btn" class="btn btn-reset">
+                    <i class="fas fa-redo"></i> Reset
+                </button>
+            </div>
+            
+            <div class="instructions">
+                <h3><i class="fas fa-info-circle"></i> How to Play</h3>
+                <ul>
+                    <li>Click on the goblin when it appears to score points</li>
+                    <li>Each goblin appears for exactly 1 second</li>
+                    <li>If you miss 5 goblins, the game ends</li>
+                    <li>Try to achieve the highest score!</li>
+                </ul>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <p>Built with Webpack, Babel, Jest & <i class="fas fa-heart"></i></p>
+            <p>Play online: <a href="https://alex-k004.github.io/game2/" target="_blank">GitHub Pages</a></p>
+        </footer>
+    </div>
+    
+    <div class="modal" id="game-over-modal">
+        <div class="modal-content">
+            <h2><i class="fas fa-gamepad"></i> Game Over!</h2>
+            <p>Your final score: <span id="final-score">0</span></p>
+            <p>You missed too many goblins!</p>
+            <button id="play-again-btn" class="btn btn-start">
+                <i class="fas fa-redo"></i> Play Again
+            </button>
+        </div>
+    </div>
+</body>
+</html>
